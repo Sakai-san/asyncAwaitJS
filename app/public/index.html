@@ -53,30 +53,6 @@
         ulElement.append(li);
       };
 
-      const ul = document.querySelectorAll('#container ul')[0];
-      let resolvedPosts = null;
-
-      /*
-        fetch("/posts")
-          .then((response) => response.json())
-          .then((posts) => {
-            resolvedPosts = posts;
-            return Promise.all(
-              posts.map((post) => fetch(`/author/${post.authorId}`).then((r) => r.json()))
-            );
-          })
-          .then((authors) => {
-            authors.forEach((author, index) => {
-              if (resolvedPosts[index]) {
-                const aggrementedPost = {...resolvedPosts[index], author};
-                renderPost(ul, aggrementedPost);
-              }
-            })
-          })
-          .catch((e) => console.error(e));
-      */
-
-
       const fetchData = async () => {
         const posts = await fetch("/posts");
         const parsedPosts = await posts.json();
@@ -88,7 +64,7 @@
           })
         );
 
-        // aggregates the two data fetched before
+        // aggregates both data fetched before
         const postsWithAuthors = parsedAuthors.map((author, index) => {
           if (parsedPosts[index]) {
             const aggrementedPost = {...parsedPosts[index], author};
@@ -96,11 +72,14 @@
           }
         });
         return postsWithAuthors;
-      }
+      };
+
+      const ul = document.querySelectorAll('#container ul')[0];
+      let resolvedPosts = null;
 
       fetchData()
         .then((data) => data.forEach((aggrementedPost) => renderPost(ul, aggrementedPost)))
-        .catch((e) => console.log("error", e));
+        .catch((e) => console.error("error", e));
     });
 
   </script>
