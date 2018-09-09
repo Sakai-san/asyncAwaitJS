@@ -75,7 +75,6 @@
       };
 
       const ul = document.querySelectorAll('#container ul')[0];
-      let resolvedPosts = null;
 
       fetchData()
         .then((data) => data.forEach((aggrementedPost) => renderPost(ul, aggrementedPost)))
